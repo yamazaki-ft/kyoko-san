@@ -1,19 +1,20 @@
 module.exports = (robot) ->
   robot.respond /bus from (shinagawa|gotenyama)/, (msg) ->
-    from_place = msg.match[1]
-    request = msg.http("https://floating-taiga-6784.herokuapp.com/bus/#{from_place}")
-                 .get()
+    request = msg.http("https://floating-taiga-6784.herokuapp.com/bus/#{msg.match[1]}").get()
+
     request (err, res, body) ->
-      json = JSON.parse body
-      msg.send json.response
+      result = JSON.parse body
+      msg.send result.response
 
   robot.respond /busall from (shinagawa|gotenyama)/, (msg) ->
-    from_place = msg.match[1]
-    request = msg.http("https://floating-taiga-6784.herokuapp.com/busall/#{from_place}")
-                 .get()
+    request = msg.http("https://floating-taiga-6784.herokuapp.com/busall/#{msg.match[1]}").get()
+
     request (err, res, body) ->
-      json = JSON.parse body
-      obj = json.response
-      msg.send ""
-      for k of obj
-        msg.send "#{k}: #{obj[k]}"
+      result    = JSON.parse body
+      timetable = result.response
+      message   = ""
+
+      for k of timetable
+        message += "#{k}: #{timetable[k]}" + '\n'
+
+      msg.send message
