@@ -10,4 +10,4 @@ module.exports = (robot) ->
       "@ooe"
     ]
     member = msg.random members
-    msg.send "今日の掃除当番は#{member}さんです！！！"
+    msg.send "今日の掃除当番は #{member} さんです！！！"
