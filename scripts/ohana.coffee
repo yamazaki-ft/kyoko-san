@@ -19,5 +19,5 @@ module.exports = (robot) ->
     len = Math.floor(str.lengthByte() / 2)
 
     msg.send ":hibiscus:" + (":hibiscus:".repeat(len - 1)) + ":hibiscus:"
-    msg.send ":hibiscus: " + str + ":heart:" + " :hibiscus:"
+    msg.send ":hibiscus:  " + str + ":heart:" + "  :hibiscus:"
     msg.send ":hibiscus:" + (":hibiscus:".repeat(len - 1)) + ":hibiscus:"
