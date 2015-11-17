@@ -18,4 +18,5 @@ module.exports = (robot) ->
     str = if msg.match[1] then msg.match[1].trim()+":heart:" else "突然の死！"
     len = Math.floor(str.lengthByte() / 2)
 
-    msg.send " :hibiscus:" + (":hibiscus:".repeat(len - 2)) + ":hibiscus:\n:hibiscus:  " + str + "   :hibiscus:\n:hibiscus:" + (":hibiscus:".repeat(len - 2)) + ":hibiscus:"
+    frame = ":hibiscus:" + (":hibiscus:".repeat(len - 2)) + ":hibiscus:"
+    msg.send "#{frame}\n:hibiscus: #{str} :hibiscus:\n#{frame}"
