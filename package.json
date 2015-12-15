@@ -23,7 +23,8 @@
     "hubot-youtube": "^0.1.2",
     "chrono-node": "^0.1.10",
     "moment": "^2.8.1",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "request": "^2.6.7"
   },
   "engines": {
     "node": "0.10.x"
