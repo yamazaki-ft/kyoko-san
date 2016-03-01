@@ -1,3 +1,3 @@
 module.exports = (robot) ->
-  robot.respond /あなたとジャバ/i, (res) ->
+  robot.hear /あなたとジャバ/i, (res) ->
     res.send "いますぐダウンロー\nド"
