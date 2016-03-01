@@ -4,7 +4,7 @@ module.exports = (robot) ->
       "@yudai",
       "@saigusa",
       "@uru",
-      "@kayku",
+      "@kyaku",
       "@tanaka",
       "@hisamatsukouji",
       "@ooe"
