@@ -1,3 +1,15 @@
+# Description
+#   ゴミの出し方を表示する
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot kato - ゴミの出し方を表示する
+#
+# Author:
+#   yudai-ez
+
 module.exports = (robot) ->
   robot.respond /kato/, (res) ->
     res.send """

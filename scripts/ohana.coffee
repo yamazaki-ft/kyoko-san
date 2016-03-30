@@ -1,3 +1,16 @@
+# Description
+#   花に囲まれたメッセージを出す
+#
+# Configuration:
+#   None
+#
+# Commands:
+#   hubot ohana (message) - 花に囲まれたメッセージを出す
+#
+# Author:
+#   yudai-ez
+
+
 String::lengthByte = ->
   str = this
   r = 0
