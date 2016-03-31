@@ -15,5 +15,5 @@ module.exports = (robot) ->
     restaurants = [
       ["カツ丼が美味しい蕎麦屋", "http://tabelog.com/tokyo/A1314/A131403/13001633/"],
     ]
-    restaurant, url = msg.random restaurants
-    msg.send "今日のお昼は#{restaurant}なんてどうですか？ #{url}"
+    restaurant = msg.random restaurants
+    msg.send "今日のお昼は#{restaurant[0]}なんてどうですか？ #{restaurant[1]}"
