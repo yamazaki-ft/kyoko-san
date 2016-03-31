@@ -6,6 +6,8 @@
 #
 # Commands:
 #   hubot lunch - ランチおみくじ
+#   hubot らんち - ランチおみくじ
+#   hubot ランチ - ランチおみくじ
 #
 # Author:
 #   curious-core
