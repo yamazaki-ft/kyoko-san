@@ -18,7 +18,7 @@ module.exports = (robot) ->
       ["カツ丼が美味しい蕎麦屋", "http://tabelog.com/tokyo/A1314/A131403/13001633/"],
       ["普通盛りが500gの蕎麦屋", "http://tabelog.com/tokyo/A1314/A131405/13187903/"],
       ["牛タンシチュー", "http://tabelog.com/tokyo/A1314/A131405/13177432/"],
-      ["ビッグハラミ", "http://tabelog.com/tokyo/A1314/A131405/13177432/"],
+      ["ビッグハラミ", "http://tabelog.com/tokyo/A1314/A131403/13040578/"],
       ["和食とろろ食べ放題", "http://tabelog.com/tokyo/A1316/A131603/13156077/dtlmenu/lunch/"],
       ["イタリアン", "http://tabelog.com/tokyo/A1314/A131403/13013919/dtlmenu/lunch/"],
       ["焼きそば中華", "http://tabelog.com/tokyo/A1316/A131604/13049008/"],
