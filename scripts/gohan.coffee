@@ -28,6 +28,7 @@ module.exports = (robot) ->
       ["タイ料理", "http://tabelog.com/tokyo/A1314/A131403/13011021/"],
       ["九州料理", "http://tabelog.com/tokyo/A1314/A131405/13173532/"],
       ["ネパール料理", "http://tabelog.com/tokyo/A1314/A131405/13113101/"],
+      ["いい感じの洋食", "http://tabelog.com/tokyo/A1316/A131604/13188125/"],
     ]
     restaurant = msg.random restaurants
     msg.send "今日のお昼は#{restaurant[0]}なんてどうですか？ #{restaurant[1]}"
