@@ -10,8 +10,8 @@
 #  hubot stgall add <検証環境> <説明> - <検証環境>を登録する
 #  hubot stgall remove <検証環境> - <検証環境>を削除する
 #  hubot stg use <検証環境> - <検証環境>を使用する
-#  hubot stg free <検証環境> - <検証環境>を解放する
-#  hubot stg freef <検証環境> - <検証環境>を強制的に解放する
+#  hubot stg free <検証環境> - <検証環境>を返却する
+#  hubot stg freef <検証環境> - <検証環境>を強制的に返却する
 #  hubot stg reserve <検証環境> - <検証環境>を予約する
 #
 # Notes:
@@ -244,14 +244,14 @@ module.exports = (robot) ->
     msg = facade.use(name)
     res.send msg
 
-  # 検証環境を解放する
+  # 検証環境を返却する
   robot.respond /stg free (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.free(name, false)
     res.send msg
 
-  # 検証環境を強制的に解放する
+  # 検証環境を強制的に返却する
   robot.respond /stg freef (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
