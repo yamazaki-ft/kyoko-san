@@ -13,8 +13,6 @@
 #  hubot free <環境> - <環境>を解放する
 #  hubot freef <環境> - <環境>を強制的に解放する
 #  hubot reserve <環境> - <環境>を予約する
-#  hubot もしもし - 返事をする
-#  hubot して - 受理する
 #
 # Notes:
 #
@@ -277,11 +275,3 @@ module.exports = (robot) ->
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.status(name)
     res.send msg
-
-  # 返事をする
-  robot.respond /もしもし/i, (res) ->
-    res.send "はい、ジュイスです。"
-
-  # 受理する
-  robot.respond /(.*)して/i, (res) ->
-    res.send "受理されました。Noblesse Oblige。今後も救世主たらんことを。"
