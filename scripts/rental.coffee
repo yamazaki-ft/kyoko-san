@@ -129,12 +129,8 @@ class Facade
       return "#{name}は存在しません。"
     rental = @rentalTable.find(env)
     if rental
-      if rental.user.name is @user.name
-        # 本人が使用中
-        return "すでにあなたが使用しています。"
-      else
-        # 他人が使用中
-        return "#{this._toEmoji(rental.user)}が使用しています。"
+      # 使用中
+      return "#{env.name}は使用されています。"
     else
       # 誰も使用していない
       @rentalTable.save({"env": env, "user": @user})
@@ -162,7 +158,7 @@ class Facade
         return "受け付けました。#{env.name}の使用者はいません。"
     else
       # 他人が使用中
-      return "#{this._toEmoji(rental.user)}が使用しています。"
+      return "#{env.name}は使用されています。"
 
   reserve: (name) ->
     env = @envTable.find(name)
