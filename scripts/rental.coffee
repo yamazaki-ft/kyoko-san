@@ -7,7 +7,7 @@
 # Commands:
 #  hubot stgall timetable - すべての検証環境の貸出・予約を確認する
 #  hubot stg timetable <検証環境> - <検証環境>の貸出・予約を確認する
-#  hubot stgall add <検証環境> <説明> - <検証環境>を追加する
+#  hubot stgall add <検証環境> <説明> - <検証環境>を登録する
 #  hubot stgall remove <検証環境> - <検証環境>を削除する
 #  hubot stg use <検証環境> - <検証環境>を使用する
 #  hubot stg free <検証環境> - <検証環境>を解放する
@@ -220,7 +220,7 @@ class Facade
 
 module.exports = (robot) ->
 
-  # 検証環境を追加する
+  # 検証環境を登録する
   robot.respond /stgall add (.*) (.*)/i, (res) ->
     name = res.match[1]
     caption = res.match[2]
