@@ -104,14 +104,14 @@ class Facade
   add: (name, caption) ->
     env = @envTable.find(name)
     if env
-      return "#{name}はすでに存在するため受理できません。"
+      return "#{name}はすでに存在します。"
     @envTable.save({"name": name, "caption": caption})
-    return "受理されました。"
+    return "受け付けました。"
 
   remove: (name) ->
     env = @envTable.find(name)
     if !env
-      return "#{name}は存在しないため受理できません。"
+      return "#{name}は存在しません。"
     @envTable.del(env)
     rental = @rentalTable.find(env)
     if rental
@@ -119,32 +119,32 @@ class Facade
     reserve = @reserveTable.find(env)
     if reserve
       @reserveTable.del(reserve)
-    return "受理されました。"
+    return "受け付けました。"
 
   use: (name) ->
     env = @envTable.find(name)
     if !env
-      return "#{name}は存在しないため受理できません。"
+      return "#{name}は存在しません。"
     rental = @rentalTable.find(env)
     if rental
       if rental.user.name is @user.name
         # 本人が使用中
-        return "すでにあなたが使用されています。"
+        return "すでにあなたが使用しています。"
       else
         # 他人が使用中
-        return "#{this._toEmoji(rental.user)}が使用されているため受理できません。"
+        return "#{this._toEmoji(rental.user)}が使用しています。"
     else
       # 誰も使用していない
       @rentalTable.save({"env": env, "user": @user})
-      return "受理されました。"
+      return "受け付けました。"
 
   free: (name, force) ->
     env = @envTable.find(name)
     if !env
-      return "#{name}は存在しないため受理できません。"
+      return "#{name}は存在しません。"
     rental = @rentalTable.find(env)
     if !rental
-      return "誰も使用しておりません。"
+      return "誰も使用していません。"
     if rental.user.name is @user.name or force
       # 使用者本人または強制
       @rentalTable.del(rental)
@@ -155,17 +155,17 @@ class Facade
         @reserveTable.save(reserve)
         rental.user = next
         @rentalTable.save(rental)
-        return "受理されました。#{env.name}の使用者は#{this._toMention(next)}になりました。"
+        return "受け付けました。#{env.name}の使用者は#{this._toMention(next)}になりました。"
       else
-        return "受理されました。#{env.name}の使用者はおりません。"
+        return "受け付けました。#{env.name}の使用者はいません。"
     else
       # 他人が使用中
-      return "#{this._toEmoji(rental.user)}が使用されているため受理できません。"
+      return "#{this._toEmoji(rental.user)}が使用しています。"
 
   reserve: (name) ->
     env = @envTable.find(name)
     if !env
-      return "#{name}は存在しないため受理できません。"
+      return "#{name}は存在しません。"
     reserve = @reserveTable.find(env)
     if reserve
       # 追加
@@ -174,7 +174,7 @@ class Facade
     else
       # 新規作成
       @reserveTable.save({"env": env, "users": [@user]})
-    return "受理されました。"
+    return "受け付けました。"
   
   _status: (env) ->
     msg = ""
@@ -205,7 +205,7 @@ class Facade
   statusAll: () ->
     list = @envTable.findAll()
     if list.length < 1
-      return "環境が1つも存在しません。"
+      return "検証環境が1つも存在しません。"
     msg = ""
     for env in list
       msg += "#{this._status(env)}\n"
