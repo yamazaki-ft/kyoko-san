@@ -5,14 +5,14 @@
 #  None
 #
 # Commands:
-#  hubot status - すべての環境の状態を確認する
-#  hubot status <環境> - <環境>の状態を確認する
-#  hubot add <環境> <説明> - <環境>を追加する
-#  hubot remove <環境> - <環境>を削除する
-#  hubot use <環境> - <環境>を使用する
-#  hubot free <環境> - <環境>を解放する
-#  hubot freef <環境> - <環境>を強制的に解放する
-#  hubot reserve <環境> - <環境>を予約する
+#  hubot stgall timetable - すべての検証環境の貸出・予約を確認する
+#  hubot stg timetable <検証環境> - <検証環境>の貸出・予約を確認する
+#  hubot stgall add <検証環境> <説明> - <検証環境>を追加する
+#  hubot stgall remove <検証環境> - <検証環境>を削除する
+#  hubot stg use <検証環境> - <検証環境>を使用する
+#  hubot stg free <検証環境> - <検証環境>を解放する
+#  hubot stg freef <検証環境> - <検証環境>を強制的に解放する
+#  hubot stg reserve <検証環境> - <検証環境>を予約する
 #
 # Notes:
 #
@@ -220,57 +220,57 @@ class Facade
 
 module.exports = (robot) ->
 
-  # 環境を追加する
-  robot.respond /add (.*) (.*)/i, (res) ->
+  # 検証環境を追加する
+  robot.respond /stgall add (.*) (.*)/i, (res) ->
     name = res.match[1]
     caption = res.match[2]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.add(name, caption)
     res.send msg
 
-  # 環境を削除する
-  robot.respond /remove (.*)/i, (res) ->
+  # 検証環境を削除する
+  robot.respond /stgall remove (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.remove(name)
     res.send msg
 
-  # 環境を使用する
-  robot.respond /use (.*)/i, (res) ->
+  # 検証環境を使用する
+  robot.respond /stg use (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.use(name)
     res.send msg
 
-  # 環境を解放する
-  robot.respond /free (.*)/i, (res) ->
+  # 検証環境を解放する
+  robot.respond /stg free (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.free(name, false)
     res.send msg
 
-  # 環境を強制的に解放する
-  robot.respond /freef (.*)/i, (res) ->
+  # 検証環境を強制的に解放する
+  robot.respond /stg freef (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.free(name, true)
     res.send msg
 
-  # 環境を予約する
-  robot.respond /reserve (.*)/i, (res) ->
+  # 検証環境を予約する
+  robot.respond /stg reserve (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.reserve(name)
     res.send msg
 
-  # すべての環境の状態を確認する
-  robot.respond /status$/i, (res) ->
+  # すべての検証環境の貸出・予約を確認する
+  robot.respond /stgall timetable/i, (res) ->
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.statusAll()
     res.send msg
 
-  # 環境の状態を確認する
-  robot.respond /status (.*)/i, (res) ->
+  # 検証環境の貸出・予約を確認する
+  robot.respond /stg timetable (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.status(name)
