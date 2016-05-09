@@ -112,13 +112,15 @@ class Facade
     env = @envTable.find(name)
     if !env
       return "#{name}は存在しません。"
-    @envTable.del(env)
     rental = @rentalTable.find(env)
     if rental
-      @rentalTable.del(rental)
+      return "#{name}は使用中のため削除できません。"
     reserve = @reserveTable.find(env)
+    if reserve and reserve.users.length > 0
+      return "#{name}は予約が存在するため削除できません。"
     if reserve
       @reserveTable.del(reserve)
+    @envTable.del(env)
     return "受け付けました。"
 
   use: (name) ->
