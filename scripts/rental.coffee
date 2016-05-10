@@ -10,8 +10,8 @@
 #  hubot stgall add <検証環境> <説明> - <検証環境>を登録する
 #  hubot stgall remove <検証環境> - <検証環境>を削除する
 #  hubot stg use <検証環境> - <検証環境>を使用する
-#  hubot stg free <検証環境> - <検証環境>を返却する
-#  hubot stg freef <検証環境> - <検証環境>を強制的に返却する
+#  hubot stg return <検証環境> - <検証環境>を返却する
+#  hubot stg returnf <検証環境> - <検証環境>を強制的に返却する
 #  hubot stg reserve <検証環境> - <検証環境>を予約する
 #
 # Notes:
@@ -136,7 +136,7 @@ class Facade
       @rentalTable.save({"env": env, "user": @user})
       return "受け付けました。"
 
-  free: (name, force) ->
+  giveBack: (name, force) ->
     env = @envTable.find(name)
     if !env
       return "#{name}は存在しません。"
@@ -241,17 +241,17 @@ module.exports = (robot) ->
     res.send msg
 
   # 検証環境を返却する
-  robot.respond /stg free (.*)/i, (res) ->
+  robot.respond /stg return (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
-    msg = facade.free(name, false)
+    msg = facade.giveBack(name, false)
     res.send msg
 
   # 検証環境を強制的に返却する
-  robot.respond /stg freef (.*)/i, (res) ->
+  robot.respond /stg returnf (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
-    msg = facade.free(name, true)
+    msg = facade.giveBack(name, true)
     res.send msg
 
   # 検証環境を予約する
