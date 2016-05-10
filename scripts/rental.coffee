@@ -5,14 +5,14 @@
 #  None
 #
 # Commands:
-#  hubot lib list - 資源の一覧を確認する
-#  hubot lib status <資源> - <資源>の使用・予約状況を確認する
-#  hubot lib add <資源> <説明> - <資源>を登録する
-#  hubot lib remove <資源> - <資源>を削除する
-#  hubot lib use <資源> - <資源>を使用する
-#  hubot lib return <資源> - <資源>を返却する
-#  hubot lib returnf <資源> - <資源>を強制的に返却する
-#  hubot lib reserve <資源> - <資源>を予約する
+#  hubot library list - 資源の一覧を確認する
+#  hubot library status <資源> - <資源>の使用・予約状況を確認する
+#  hubot library add <資源> <説明> - <資源>を登録する
+#  hubot library remove <資源> - <資源>を削除する
+#  hubot library use <資源> - <資源>を使用する
+#  hubot library return <資源> - <資源>を返却する
+#  hubot library returnf <資源> - <資源>を強制的に返却する
+#  hubot library reserve <資源> - <資源>を予約する
 #
 # Notes:
 #
@@ -219,7 +219,7 @@ class Facade
 module.exports = (robot) ->
 
   # 資源を登録する
-  robot.respond /lib add (.*) (.*)/i, (res) ->
+  robot.respond /library add (.*) (.*)/i, (res) ->
     name = res.match[1]
     caption = res.match[2]
     facade = new Facade(res.message.user, robot.brain)
@@ -227,48 +227,48 @@ module.exports = (robot) ->
     res.send msg
 
   # 資源を削除する
-  robot.respond /lib remove (.*)/i, (res) ->
+  robot.respond /library remove (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.remove(name)
     res.send msg
 
   # 資源を使用する
-  robot.respond /lib use (.*)/i, (res) ->
+  robot.respond /library use (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.use(name)
     res.send msg
 
   # 資源を返却する
-  robot.respond /lib return (.*)/i, (res) ->
+  robot.respond /library return (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.giveBack(name, false)
     res.send msg
 
   # 資源を強制的に返却する
-  robot.respond /lib returnf (.*)/i, (res) ->
+  robot.respond /library returnf (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.giveBack(name, true)
     res.send msg
 
   # 資源を予約する
-  robot.respond /lib reserve (.*)/i, (res) ->
+  robot.respond /library reserve (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.reserve(name)
     res.send msg
 
   # 資源の一覧を確認する
-  robot.respond /lib list/i, (res) ->
+  robot.respond /library list/i, (res) ->
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.statusAll()
     res.send msg
 
   # 資源の使用・予約状況を確認する
-  robot.respond /lib status (.*)/i, (res) ->
+  robot.respond /library status (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.status(name)
