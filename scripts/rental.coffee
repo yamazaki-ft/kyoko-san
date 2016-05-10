@@ -53,138 +53,138 @@ class Table
     delete data[key]
     @brain.set(@table, JSON.stringify(data))
 
-# 環境テーブル
-class EnvTable extends Table
+# 資源テーブル
+class ResourceTable extends Table
   constructor: (brain) ->
-    super(brain, "env")
+    super(brain, "resource")
 
   find: (name) ->
     this._findByKey(name)
 
-  save: (env) ->
-    this._save(env.name, env)
+  save: (resource) ->
+    this._save(resource.name, resource)
 
-  del: (env) ->
-    this._del(env.name, env)
+  del: (resource) ->
+    this._del(resource.name, resource)
 
 # 貸出テーブル
 class RentalTable extends Table
   constructor: (brain) ->
     super(brain, "rental")
 
-  find: (env) ->
-    this._findByKey(env.name)
+  find: (resource) ->
+    this._findByKey(resource.name)
 
   save: (rental) ->
-    this._save(rental.env.name, rental)
+    this._save(rental.resource.name, rental)
 
   del: (rental) ->
-    this._del(rental.env.name, rental)
+    this._del(rental.resource.name, rental)
 
 # 予約テーブル
 class ReserveTable extends Table
   constructor: (brain) ->
     super(brain, "reserve")
 
-  find: (env) ->
-    this._findByKey(env.name)
+  find: (resource) ->
+    this._findByKey(resource.name)
 
   save: (reserve) ->
-    this._save(reserve.env.name, reserve)
+    this._save(reserve.resource.name, reserve)
 
   del: (reserve) ->
-    this._del(reserve.env.name, reserve)
+    this._del(reserve.resource.name, reserve)
 
 class Facade
   constructor: (@user, brain) ->
-    @envTable = new EnvTable(brain)
+    @resourceTable = new ResourceTable(brain)
     @rentalTable = new RentalTable(brain)
     @reserveTable = new ReserveTable(brain)
 
   add: (name, caption) ->
-    env = @envTable.find(name)
-    if env
+    resource = @resourceTable.find(name)
+    if resource
       return "#{name}はすでに存在します。"
-    @envTable.save({"name": name, "caption": caption})
+    @resourceTable.save({"name": name, "caption": caption})
     return "受け付けました。"
 
   remove: (name) ->
-    env = @envTable.find(name)
-    if !env
+    resource = @resourceTable.find(name)
+    if !resource
       return "#{name}は存在しません。"
-    rental = @rentalTable.find(env)
+    rental = @rentalTable.find(resource)
     if rental
       return "#{name}は使用中のため削除できません。"
-    reserve = @reserveTable.find(env)
+    reserve = @reserveTable.find(resource)
     if reserve and reserve.users.length > 0
       return "#{name}は予約が存在するため削除できません。"
     if reserve
       @reserveTable.del(reserve)
-    @envTable.del(env)
+    @resourceTable.del(resource)
     return "受け付けました。"
 
   use: (name) ->
-    env = @envTable.find(name)
-    if !env
+    resource = @resourceTable.find(name)
+    if !resource
       return "#{name}は存在しません。"
-    rental = @rentalTable.find(env)
+    rental = @rentalTable.find(resource)
     if rental
       # 使用中
-      return "#{env.name}は使用中です。"
+      return "#{resource.name}は使用中です。"
     else
       # 誰も使用していない
-      @rentalTable.save({"env": env, "user": @user})
+      @rentalTable.save({"resource": resource, "user": @user})
       return "受け付けました。"
 
   giveBack: (name, force) ->
-    env = @envTable.find(name)
-    if !env
+    resource = @resourceTable.find(name)
+    if !resource
       return "#{name}は存在しません。"
-    rental = @rentalTable.find(env)
+    rental = @rentalTable.find(resource)
     if !rental
       return "誰も使用していません。"
     if rental.user.name is @user.name or force
       # 使用者本人または強制
       @rentalTable.del(rental)
-      reserve = @reserveTable.find(rental.env)
+      reserve = @reserveTable.find(rental.resource)
       if reserve and reserve.users.length > 0
         # 先頭の予約者を使用者に更新する
         next = reserve.users.shift()
         @reserveTable.save(reserve)
         rental.user = next
         @rentalTable.save(rental)
-        return "受け付けました。#{env.name}の使用者は#{this._toMention(next)}になりました。"
+        return "受け付けました。#{resource.name}の使用者は#{this._toMention(next)}になりました。"
       else
-        return "受け付けました。#{env.name}の使用者はいません。"
+        return "受け付けました。#{resource.name}の使用者はいません。"
     else
       # 他人が使用中
-      return "#{env.name}は使用中です。"
+      return "#{resource.name}は使用中です。"
 
   reserve: (name) ->
-    env = @envTable.find(name)
-    if !env
+    resource = @resourceTable.find(name)
+    if !resource
       return "#{name}は存在しません。"
-    reserve = @reserveTable.find(env)
+    reserve = @reserveTable.find(resource)
     if reserve
       # 追加
       reserve.users.push(@user)
       @reserveTable.save(reserve)
     else
       # 新規作成
-      @reserveTable.save({"env": env, "users": [@user]})
+      @reserveTable.save({"resource": resource, "users": [@user]})
     return "受け付けました。"
   
-  _status: (env) ->
+  _status: (resource) ->
     msg = ""
     # 太字表示
-    msg += "*#{env.name}*  #{env.caption}\n"
-    rental = @rentalTable.find(env)
+    msg += "*#{resource.name}*  #{resource.caption}\n"
+    rental = @rentalTable.find(resource)
     # 引用表示
     if rental
       msg += ">使用： #{this._toEmoji(rental.user)}\n"
     else
       msg += ">使用： none\n"
-    reserve = @reserveTable.find(env)
+    reserve = @reserveTable.find(resource)
     if reserve and reserve.users.length > 0
       s = ""
       for user in reserve.users
@@ -195,18 +195,18 @@ class Facade
     return msg
 
   status: (name) ->
-    env = @envTable.find(name)
-    if !env
+    resource = @resourceTable.find(name)
+    if !resource
       return "#{name}は存在しません。"
-    return this._status(env)
+    return this._status(resource)
 
   statusAll: () ->
-    list = @envTable.findAll()
+    list = @resourceTable.findAll()
     if list.length < 1
       return "1つも存在しません。"
     msg = ""
-    for env in list
-      msg += "#{this._status(env)}\n"
+    for resource in list
+      msg += "#{this._status(resource)}\n"
     return msg
 
   # 通知が飛ばないように両端にアンダースコアを入れたemoji名で回避
