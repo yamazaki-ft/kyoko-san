@@ -1,18 +1,18 @@
 # Description
-#  検証環境の貸出・予約を管理する
+#  資源の使用・予約を管理する
 # 
 # Dependencies:
 #  None
 #
 # Commands:
-#  hubot stgall timetable - すべての検証環境の貸出・予約を確認する
-#  hubot stg timetable <検証環境> - <検証環境>の貸出・予約を確認する
-#  hubot stgall add <検証環境> <説明> - <検証環境>を登録する
-#  hubot stgall remove <検証環境> - <検証環境>を削除する
-#  hubot stg use <検証環境> - <検証環境>を使用する
-#  hubot stg return <検証環境> - <検証環境>を返却する
-#  hubot stg returnf <検証環境> - <検証環境>を強制的に返却する
-#  hubot stg reserve <検証環境> - <検証環境>を予約する
+#  hubot lib list - 資源の一覧を確認する
+#  hubot lib status <資源> - <資源>の使用・予約状況を確認する
+#  hubot lib add <資源> <説明> - <資源>を登録する
+#  hubot lib remove <資源> - <資源>を削除する
+#  hubot lib use <資源> - <資源>を使用する
+#  hubot lib return <資源> - <資源>を返却する
+#  hubot lib returnf <資源> - <資源>を強制的に返却する
+#  hubot lib reserve <資源> - <資源>を予約する
 #
 # Notes:
 #
@@ -130,7 +130,7 @@ class Facade
     rental = @rentalTable.find(env)
     if rental
       # 使用中
-      return "#{env.name}は使用されています。"
+      return "#{env.name}は使用中です。"
     else
       # 誰も使用していない
       @rentalTable.save({"env": env, "user": @user})
@@ -158,7 +158,7 @@ class Facade
         return "受け付けました。#{env.name}の使用者はいません。"
     else
       # 他人が使用中
-      return "#{env.name}は使用されています。"
+      return "#{env.name}は使用中です。"
 
   reserve: (name) ->
     env = @envTable.find(name)
@@ -203,7 +203,7 @@ class Facade
   statusAll: () ->
     list = @envTable.findAll()
     if list.length < 1
-      return "検証環境が1つも存在しません。"
+      return "1つも存在しません。"
     msg = ""
     for env in list
       msg += "#{this._status(env)}\n"
@@ -218,57 +218,57 @@ class Facade
 
 module.exports = (robot) ->
 
-  # 検証環境を登録する
-  robot.respond /stgall add (.*) (.*)/i, (res) ->
+  # 資源を登録する
+  robot.respond /lib add (.*) (.*)/i, (res) ->
     name = res.match[1]
     caption = res.match[2]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.add(name, caption)
     res.send msg
 
-  # 検証環境を削除する
-  robot.respond /stgall remove (.*)/i, (res) ->
+  # 資源を削除する
+  robot.respond /lib remove (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.remove(name)
     res.send msg
 
-  # 検証環境を使用する
-  robot.respond /stg use (.*)/i, (res) ->
+  # 資源を使用する
+  robot.respond /lib use (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.use(name)
     res.send msg
 
-  # 検証環境を返却する
-  robot.respond /stg return (.*)/i, (res) ->
+  # 資源を返却する
+  robot.respond /lib return (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.giveBack(name, false)
     res.send msg
 
-  # 検証環境を強制的に返却する
-  robot.respond /stg returnf (.*)/i, (res) ->
+  # 資源を強制的に返却する
+  robot.respond /lib returnf (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.giveBack(name, true)
     res.send msg
 
-  # 検証環境を予約する
-  robot.respond /stg reserve (.*)/i, (res) ->
+  # 資源を予約する
+  robot.respond /lib reserve (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.reserve(name)
     res.send msg
 
-  # すべての検証環境の貸出・予約を確認する
-  robot.respond /stgall timetable/i, (res) ->
+  # 資源の一覧を確認する
+  robot.respond /lib list/i, (res) ->
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.statusAll()
     res.send msg
 
-  # 検証環境の貸出・予約を確認する
-  robot.respond /stg timetable (.*)/i, (res) ->
+  # 資源の使用・予約状況を確認する
+  robot.respond /lib status (.*)/i, (res) ->
     name = res.match[1]
     facade = new Facade(res.message.user, robot.brain)
     msg = facade.status(name)
